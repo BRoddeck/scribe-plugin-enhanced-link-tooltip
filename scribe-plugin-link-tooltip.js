@@ -8,7 +8,7 @@
     var scribePluginLinkTooltip = function (options) {
 
         // http://stackoverflow.com/a/25206094/1317451
-        function findClosestParent (startElement, fn) {
+        function findClosestParent(startElement, fn) {
             var parent = startElement.parentElement;
             if (!parent) {
                 return undefined;
@@ -48,8 +48,8 @@
                 },
 
                 linkSanitizer = options.linkSanitizer || function (str) {
-                        return str;
-                    },
+                    return str;
+                },
 
             // Extends selection to whole anchor. Returns anchor node or undefined.
                 selectAnchorContent = function (selection) {
@@ -211,27 +211,36 @@
                 queryState = function () {
                     var selection = new scribe.api.Selection();
                     return isEditState || selection.getContaining(function (node) {
-                            if (node.nodeName === 'A' && !isEditState) {
-                                showTooltip('view', selection, node,
-                                    node.getAttribute('href'), // ! not node.href as that would be expanded
-                                    function (newHref) {
-                                        node.href = newHref;
-                                        // scribe (or the browser?) automatically removes the link if newHref is empty
-                                    });
-                            } else {
-                                tooltipNode.classList.add(namespace + '-hidden');
-                            }
+                        if (node.nodeName === 'A' && !isEditState && scribe.el.contains(node)) {
+                            showTooltip('view', selection, node,
+                                node.getAttribute('href'), // ! not node.href as that would be expanded
+                                function (newHref) {
+                                    node.href = newHref;
+                                    // scribe (or the browser?) automatically removes the link if newHref is empty
+                                });
+                        } else {
+                            tooltipNode.classList.add(namespace + '-hidden');
+                        }
 
-                            return node.nodeName === nodeName;
-                        });
+                        return node.nodeName === nodeName;
+                    });
                 };
 
             // bind and register
+            var unbindAndExecute = function () {
+                document.removeEventListener('click', unbindAndExecute);
+                executeCommand.call(linkTooltipCommand);
+            };
+
             var linkTooltipCommand = new scribe.api.Command('createLink');
             scribe.commands.linkTooltip = linkTooltipCommand;
 
             linkTooltipCommand.queryState = queryState;
-            linkTooltipCommand.execute = executeCommand.bind(linkTooltipCommand);
+            linkTooltipCommand.execute = function () {
+                // this is needed since scribe toolbar executes the command on mousedown
+                // (see https://github.com/guardian/scribe-plugin-toolbar/pull/18)
+                document.addEventListener('click', unbindAndExecute);
+            };
 
             ui.editBtn.addEventListener('click', executeCommand);
 
@@ -250,4 +259,4 @@
     } else {
         window.scribePluginLinkTooltip = scribePluginLinkTooltip;
     }
-})();
+}());
