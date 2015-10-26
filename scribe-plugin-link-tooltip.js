@@ -82,7 +82,7 @@
                             /* eslint no-use-before-define:0 */ // circular references
                             tooltipNode.removeEventListener('submit', link);
                             ui.removeBtn.removeEventListener('click', unlink);
-                            document.removeEventListener('click', onBlur);
+                            document.removeEventListener('mouseup', onBlur);
                             window.removeEventListener('resize', repositionTooltip);
                         },
                         link = function (e) {
@@ -179,11 +179,7 @@
                     ui.removeBtn.addEventListener('click', unlink);
 
                     // On clicking off the tooltip, hide the tooltip.
-                    // Deferred because otherwise it would be called immediately
-                    // by the click event leading us here bubbling up.
-                    setTimeout(function () {
-                        document.addEventListener('click', onBlur);
-                    }, 0);
+                    document.addEventListener('mouseup', onBlur);
                 },
 
                 executeCommand = function () {
