@@ -119,7 +119,9 @@ require({
      */
 
     // Replace with your templating solution of choice
-    var scribePluginLinkTooltipTemplate = '<a data-scribe-plugin-link-tooltip-role="link"' +
+    var scribePluginLinkTooltipTemplate = '' +
+        '<div data-scribe-plugin-link-tooltip-role="arrow"></div>' +
+        '<a data-scribe-plugin-link-tooltip-role="link"' +
         'class="scribe-plugin-link-tooltip-show-on-view"></a>' +
         '<input data-scribe-plugin-link-tooltip-role="input"' +
         'class="scribe-plugin-link-tooltip-show-on-edit" placeholder="Paste or type a link"/>' +

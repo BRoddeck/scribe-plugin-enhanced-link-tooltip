@@ -23,12 +23,10 @@
   transform: translateY(14px);
 }
 
-.scribe-plugin-link-tooltip::after {
-  margin-left: -14px;
+[data-scribe-plugin-link-tooltip-role="arrow"] {
   position: absolute;
   bottom: 99%;
   left: 50%;
-  content: "";
   height: 0;
   width: 0;
   border: 14px solid transparent;
