@@ -6,6 +6,7 @@
 .scribe-plugin-link-tooltip {
   z-index: 1;
   white-space: nowrap;
+  transform: translateY(14px);
 }
 
 .scribe-plugin-link-tooltip > * {
@@ -17,12 +18,6 @@
   display: none;
 }
 
-/* Everything below is just to make the example look not totally ugly */
-.scribe-plugin-link-tooltip {
-  background: darkslategrey;
-  transform: translateY(14px);
-}
-
 [data-scribe-plugin-link-tooltip-role="arrow"] {
   position: absolute;
   bottom: 99%;
@@ -30,6 +25,14 @@
   height: 0;
   width: 0;
   border: 14px solid transparent;
+}
+
+/* Everything below is just to make the example look not totally ugly */
+.scribe-plugin-link-tooltip {
+  background: darkslategrey;
+}
+
+[data-scribe-plugin-link-tooltip-role="arrow"] {
   border-bottom-color: darkslategrey;
 }
 
